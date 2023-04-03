@@ -211,14 +211,16 @@ https://tweakers.net/pricewatch/1585192/patriot-memory-p210-2tb.html
 normally between 7 / 8 Watt.
 
 Since the NIC was not working, I ordered some USB nics
+
 I looked at the vmware site and searched for the correct chipsets.
 https://flings.vmware.com/usb-network-native-driver-for-esxi
-ASIX88178a, ASIX USB 3.0 gigabit network ASIX88179, Realtek USB 3.0 gigabit network RTL8152/RTL8153
+ASIX88178a, ASIX USB 3.0 gigabit network ASIX88179
+Realtek USB 3.0 gigabit network RTL8152/RTL8153
 
 ### Working USB NIC's
 ALXUM USB C Ethernet Type-C to RJ45 Lan Network Adapter 2500Mbps USB 3.2 https://s.click.aliexpress.com/e/_DdEdrdf
 UGREEN USB Ethernet Adapter 1000/100Mbps USB3.0 --> https://s.click.aliexpress.com/e/_DBUhX0V
-RTL8153/ RTL8152B Chips USB/Type-c to RJ45 
+RTL8153/ RTL8152B Chips USB/Type-c to RJ45
 1000Mbps USB 3.0 Wired Type C USB To Rj45 AX88179 Chip https://s.click.aliexpress.com/e/_DkI7Fqh
 
 ## Backup VM
@@ -240,9 +242,10 @@ Installing ESXi 8.0.0
 81%
 
 The fix was very simple: 
-ESX is then installed, 
-When ESXi is loaded, press F2 and login as "root" without password. (The password
-entered during the installation has not been saved because the configuration failed)
+
+ESX is then installed
+
+When ESXi is loaded, press F2 and login as "root" without password. (The password entered during the installation has not been saved because the configuration failed)
 You should notice that all Network Options are greyed out. Select Network Restore
 Log out
 Log back in
