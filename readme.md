@@ -1,8 +1,14 @@
-# Installing ESX 6 / 7 / 8
+# Installing ESX 6.7 / 7 / 8
+
+Design:
+3 dell 3050's / 3070 micro's with minimal power usage
+Free ESXi license
+Mixed mode ESX 6.7 / 7.0 due to the lack of nvme support in ESX 7.0
+Backup to synology nas with NFS
 
 Esx 7
 
-## vCreate ISO + usb nic fling
+## Create ISO + usb nic fling
 ## Install ESX 7
 ## Enable SSH / Autostart SSH
 
@@ -177,6 +183,43 @@ Volume Name  Host          Share                 Accessible  Mounted  Read-Only 
 nfsbackup    192.168.1.22  /volume1/vmnfsbackup        true     true      false  false  Not Supported
 [root@kuiper2:~]
 ```
+## Hardware
+### Homelab Servers:
+Dell OptiPlex 3050 Micro - i5-7500T
+Dell OptiPlex 3070 Micro - i3-9100T
+
+### RAM Support
+Up to 32GB in 2x DDR4-2400 SODIMMs
+
+I bought crucial DDR4-2400's.
+https://tweakers.net/pricewatch/484177/crucial-ct16g4sfd824a.html
+
+### Storage Support
+2.5″ SATA with Bracket
+M.2 PCIe Gen3 for NVMe SSDs (supported for esx 6.7, no support for esx 7 / 8)
+
+### Networking (Wired)
+Realtek RTL8111 (supported for esx 6.7, no support for esx 7 / 8)
+
+### Chipset
+Intel B250 PCH
+
+### Cheap ssd disks: (2Tb SSD 400 - 500MB/s)
+https://tweakers.net/pricewatch/1585192/patriot-memory-p210-2tb.html
+
+### Power usage:
+normally between 7 / 8 Watt.
+
+Since the NIC was not working, I ordered some USB nics
+I looked at the vmware site and searched for the correct chipsets.
+https://flings.vmware.com/usb-network-native-driver-for-esxi
+ASIX88178a, ASIX USB 3.0 gigabit network ASIX88179, Realtek USB 3.0 gigabit network RTL8152/RTL8153
+
+### Working USB NIC's
+ALXUM USB C Ethernet Type-C to RJ45 Lan Network Adapter 2500Mbps USB 3.2 https://s.click.aliexpress.com/e/_DdEdrdf
+UGREEN USB Ethernet Adapter 1000/100Mbps USB3.0 --> https://s.click.aliexpress.com/e/_DBUhX0V
+RTL8153/ RTL8152B Chips USB/Type-c to RJ45 
+1000Mbps USB 3.0 Wired Type C USB To Rj45 AX88179 Chip https://s.click.aliexpress.com/e/_DkI7Fqh
 
 ## Backup VM
 
@@ -187,3 +230,22 @@ vim-cmd vmsvc/snapshot.create 2 "snapshot_backup" 0 1
 cp /vmfs/volumes/datastore1/uranus3/* /vmfs/volumes/nfsbackup/uranus3/
 vim-cmd vmsvc/snapshot.removeall 2
 ```
+
+# ESX8
+
+## Install of esx 8 failed with the folowing error.
+
+Exception: No vmknic tagged for mangement was found.
+Installing ESXi 8.0.0
+81%
+
+The fix was very simple: 
+ESX is then installed, 
+When ESXi is loaded, press F2 and login as "root" without password. (The password
+entered during the installation has not been saved because the configuration failed)
+You should notice that all Network Options are greyed out. Select Network Restore
+Log out
+Log back in
+Network options are no longer greyed out and the vusb0 adapter has been detected
+
+(see https://www.virten.net/2020/07/solution-esxi-installation-with-usb-nic-only-fails-at-81/)
