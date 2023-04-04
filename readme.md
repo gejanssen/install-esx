@@ -196,6 +196,42 @@ Enabled
 [root@kuiper1:~]
 ```
 
+## Autostart VM's
+
+```
+[root@kuiper3:~] vim-cmd vmsvc/getallvms
+Vmid   Name                File                 Guest OS      Version   Annotation
+1      orcus   [datastore1] orcus/orcus.vmx   ubuntu64Guest   vmx-15
+[root@kuiper3:~]
+
+
+[root@kuiper3:~] vim-cmd hostsvc/autostartmanager/update_autostartentry 1
+Insufficient arguments.
+Usage: update_autostartentry VMId StartAction StartDelay StartOrder StopAction StopDelay WaitForHeartbeat
+```
+Updates a single VM's AutoStart entry.
+
+Example command:
+vim-cmd hostsvc/autostartmanager/update_autostartentry '$VMID' 'PowerOn' 'systemDefault' '1' 'systemDefault' 'systemDefault' 'systemDefault'
+
+```
+[root@kuiper3:~] vim-cmd hostsvc/autostartmanager/update_autostartentry '1' 'PowerOn' 'systemDefault' '1' 'systemDefault' 'systemDefault' 'systemDefault'
+1Updated AutoStart order.
+[root@kuiper3:~] vim-cmd hostsvc/autostartmanager/get_autostartseq
+(vim.host.AutoStartManager.AutoPowerInfo) [
+   (vim.host.AutoStartManager.AutoPowerInfo) {
+      key = 'vim.VirtualMachine:1',
+      startOrder = 1,
+      startDelay = 0,
+      waitForHeartbeat = "systemDefault",
+      startAction = "PowerOn",
+      stopDelay = 0,
+      stopAction = "systemDefault"
+   }
+]
+[root@kuiper3:~]
+```
+
 ## NFS mount diskstation
 
 This command mounts the NAS file system and adds it to the list of known file systems. 
